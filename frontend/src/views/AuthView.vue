@@ -67,6 +67,7 @@
 </style>
 
 <script setup>
+import router from '@/router';
 import { supabase } from '../../lib/supabaseClient'
 import { ref } from 'vue'
 
@@ -127,6 +128,8 @@ async function signInHandler(event) {
 
   if(error) {
     alert('Error login: ' + error.message)
+  } else {
+    router.push({ path: '/dashboard' })
   }
 }
 

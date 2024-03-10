@@ -54,6 +54,19 @@ const router = createRouter({
       path: '/registrationcompleted',
       name: 'registrationcompleted',
       component: () => import('../views/RegistrationCompletedView.vue')
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      beforeEnter: async (to, from) => {
+        let error = await supabase.auth.signOut()
+        console.log('error: ' , error)
+        if(error.error) {
+          alert('error: ' + error.message)
+          return false
+        }
+        return '/'
+      }
     }
   ]
 })

@@ -1,20 +1,39 @@
 <script setup>
+
 import { RouterLink, RouterView } from 'vue-router'
-// import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+import { supabase } from '../lib/supabaseClient'
+
+let isAuthenticated = ref(false)
+
+async function checkAuth() {
+  let { data, error } = await supabase.auth.getUser()
+  console.log('data: ' , data)
+  console.log('error: ' , error)
+  if(data.user !== undefined && data.user !== null) {
+    isAuthenticated.value = true
+  }
+}
+
+checkAuth()
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <header>
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/auth">Auth</RouterLink>
-    </nav>
-  </header>
-
-  <RouterView />
+        <nav v-if="!isAuthenticated">
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+          <RouterLink to="/auth">Auth</RouterLink>
+        </nav>
+        <nav v-else>
+          <RouterLink to="/dashboard">Dashboard</RouterLink>
+          <RouterLink to="/logout">Logout</RouterLink>
+        </nav>
+    </header>
+    <RouterView />
 </template>
 
 <style scoped>
