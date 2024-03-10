@@ -1,5 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { supabase } from '../../lib/supabaseClient'
+
+// Check if supabase find an authenticated session
+const isAuthenticated = async (to, from) => {
+  console.log('to: ' , to)
+  console.log('from: ' , from)
+  if(to.hash.startsWith('#access_token')) {
+    return '/registrationcompleted'
+  }
+  // reject the navigation
+  const { data, error } = await supabase.auth.getUser()
+  console.log('data: ' , data)
+  console.log('error: ' , error)
+  if(error || data.user === undefined) {
+    console.log('exit')
+    return '/auth'
+  }
+  return true
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,7 +47,13 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
+      beforeEnter: isAuthenticated,
       component: () => import('../views/DashboardView.vue')
+    }, 
+    {
+      path: '/registrationcompleted',
+      name: 'registrationcompleted',
+      component: () => import('../views/RegistrationCompletedView.vue')
     }
   ]
 })
