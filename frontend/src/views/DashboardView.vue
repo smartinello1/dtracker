@@ -3,8 +3,7 @@
 </script>
 
 <template>
-  <div></div>
-  <!-- <main>
-    <TheWelcome />
-  </main> -->
+  <main>
+    <h1>You are in the dashboard</h1>
+  </main>
 </template>

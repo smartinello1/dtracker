@@ -34,6 +34,10 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+
+  --text-align-left: left;
+  --text-align-center: center;
+  --text-align-right: right;
 }
 
 @media (prefers-color-scheme: dark) {
