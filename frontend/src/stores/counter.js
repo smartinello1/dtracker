@@ -10,3 +10,10 @@ export const useCounterStore = defineStore('counter', () => {
 
   return { count, doubleCount, increment }
 })
+
+export const authStore = defineStore('auth', () => {
+  const isAuthenticated = ref(false)
+  const userInfo = ref()
+
+  return { isAuthenticated, userInfo }
+})

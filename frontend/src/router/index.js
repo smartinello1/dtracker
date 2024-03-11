@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { supabase } from '../../lib/supabaseClient'
+// import { supabase } from '../../lib/supabaseClient'
+import { authStore } from '@/stores/counter'
 
 // Check if supabase find an authenticated session
 const isAuthenticated = async (to, from) => {
@@ -10,11 +11,17 @@ const isAuthenticated = async (to, from) => {
     return '/registrationcompleted'
   }
   // reject the navigation
-  const { data, error } = await supabase.auth.getUser()
-  console.log('data: ' , data)
-  console.log('error: ' , error)
-  if(error || data.user === undefined) {
-    console.log('exit')
+  // const { data, error } = await supabase.auth.getUser()
+  // console.log('data: ' , data)
+  // console.log('error: ' , error)
+  // if(error || data.user === undefined) {
+  //   console.log('exit')
+  //   return '/auth'
+  // }
+  // return true
+  const store = authStore()
+  console.log('store.isAuthenticated: ' , store.isAuthenticated)
+  if(!store.isAuthenticated) {
     return '/auth'
   }
   return true
@@ -54,20 +61,20 @@ const router = createRouter({
       path: '/registrationcompleted',
       name: 'registrationcompleted',
       component: () => import('../views/RegistrationCompletedView.vue')
-    },
-    {
-      path: '/logout',
-      name: 'logout',
-      beforeEnter: async (to, from) => {
-        let error = await supabase.auth.signOut()
-        console.log('error: ' , error)
-        if(error.error) {
-          alert('error: ' + error.message)
-          return false
-        }
-        return '/'
-      }
     }
+    // {
+    //   path: '/logout',
+    //   name: 'logout',
+    //   beforeEnter: async (to, from) => {
+    //     let error = await supabase.auth.signOut()
+    //     console.log('error: ' , error)
+    //     if(error.error) {
+    //       alert('error: ' + error.message)
+    //       return false
+    //     }
+    //     return '/'
+    //   }
+    // }
   ]
 })
 

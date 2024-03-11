@@ -1,21 +1,40 @@
 <script setup>
 
 import { RouterLink, RouterView } from 'vue-router'
-import { ref } from 'vue'
+// import { ref } from 'vue'
+import router from '@/router';
 import { supabase } from '../lib/supabaseClient'
+import { authStore } from '@/stores/counter'
 
-let isAuthenticated = ref(false)
+const store = authStore()
 
 async function checkAuth() {
-  let { data, error } = await supabase.auth.getUser()
-  console.log('data: ' , data)
-  console.log('error: ' , error)
-  if(data.user !== undefined && data.user !== null) {
-    isAuthenticated.value = true
-  }
+
+  // let { data, error } = await supabase.auth.getUser()
+  // console.log('data: ' , data)
+  // console.log('error: ' , error)
+  // if(data.user !== undefined && data.user !== null) {
+  //   isAuthenticated.value = true
+  // }
+  console.log('store.isAuthenticated: ' , store.isAuthenticated)
+  console.log('store.isAuthenticated: ' , store.isAuthenticated)
+  return store.isAuthenticated
 }
 
 checkAuth()
+
+async function handleClickLogout() {
+  let error = await supabase.auth.signOut()
+  console.log('error: ' , error)
+  if(error.error) {
+    alert('error: ' + error.message)
+  } else {
+    // isAuthenticated.value = false
+    store.isAuthenticated = false
+    store.userInfo = undefined
+    router.push({ path: '/' })
+  }
+}
 
 </script>
 
@@ -23,14 +42,14 @@ checkAuth()
     <header>
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-        <nav v-if="!isAuthenticated">
+        <nav v-if="!store.isAuthenticated">
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/about">About</RouterLink>
           <RouterLink to="/auth">Auth</RouterLink>
         </nav>
         <nav v-else>
           <RouterLink to="/dashboard">Dashboard</RouterLink>
-          <RouterLink to="/logout">Logout</RouterLink>
+          <button @click="handleClickLogout">Logout</button>
         </nav>
     </header>
     <RouterView />

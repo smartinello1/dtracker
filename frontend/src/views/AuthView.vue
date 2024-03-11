@@ -70,7 +70,9 @@
 import router from '@/router';
 import { supabase } from '../../lib/supabaseClient'
 import { ref } from 'vue'
+import { authStore } from '@/stores/counter'
 
+const store = authStore()
 // If supabase client not found, redirect to home
 if (!supabase) {
   // TODO: Handle errors SupabaseClient
@@ -129,7 +131,16 @@ async function signInHandler(event) {
   if(error) {
     alert('Error login: ' + error.message)
   } else {
+    console.log('data login: ' , data)
+    store.$patch({
+      isAuthenticated: true,
+      userInfo: data.user
+    })
     router.push({ path: '/dashboard' })
+    // TODO: Refactor and use pinia or other vue function
+    // window.setTimeout(() => {
+    //   window.location.reload()
+    // },500)
   }
 }
 
