@@ -26,17 +26,17 @@
       <div class="signin-btns-container" v-if="!showSignUp">
         <button @click="signInHandler">Sign In</button>
         <div>
-          Don't you have an account, <a style="cursor: pointer;" @click="signUpViewHandler">sign up</a>
+          Don't you have an account,
+          <a style="cursor: pointer" @click="signUpViewHandler">sign up</a>
         </div>
       </div>
 
       <div class="signup-btns-container" v-if="showSignUp">
         <button @click="signUpHandler">Sign Up</button>
         <div>
-          Already have an account? <a style="cursor: pointer;" @click="signInViewHandler">sign in</a>
+          Already have an account? <a style="cursor: pointer" @click="signInViewHandler">sign in</a>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -67,7 +67,7 @@
 </style>
 
 <script setup>
-import router from '@/router';
+import router from '@/router'
 import { supabase } from '../../lib/supabaseClient'
 import { ref } from 'vue'
 import { authStore } from '@/stores/auth'
@@ -94,7 +94,7 @@ async function signUpHandler(event) {
   })
 
   console.log('error: ', error)
-  if(error) {
+  if (error) {
     // TODO: Manage errors on signUp process
     alert('error: ' + error.message)
   } else {
@@ -109,29 +109,29 @@ async function signUpHandler(event) {
 async function signInHandler(event) {
   event.preventDefault()
   let inputError = false
-  if(!email.value) {
+  if (!email.value) {
     document.querySelector('#email').setCustomValidity('Error!')
     inputError = true
   }
 
-  if(!password.value) {
+  if (!password.value) {
     document.querySelector('#password').setCustomValidity('Error!')
     inputError = true
   }
 
-  if(inputError) {
+  if (inputError) {
     return
   }
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email.value,
-    password: password.value,
+    password: password.value
   })
 
-  if(error) {
+  if (error) {
     alert('Error login: ' + error.message)
   } else {
-    console.log('data login: ' , data)
+    console.log('data login: ', data)
     store.$patch({
       isAuthenticated: true,
       userInfo: data.user

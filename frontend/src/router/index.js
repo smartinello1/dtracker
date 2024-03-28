@@ -5,9 +5,9 @@ import { authStore } from '@/stores/auth'
 
 // Check if supabase find an authenticated session
 const isAuthenticated = async (to, from) => {
-  console.log('to: ' , to)
-  console.log('from: ' , from)
-  if(to.hash.startsWith('#access_token')) {
+  console.log('to: ', to)
+  console.log('from: ', from)
+  if (to.hash.startsWith('#access_token')) {
     return '/registrationcompleted'
   }
   // reject the navigation
@@ -20,8 +20,8 @@ const isAuthenticated = async (to, from) => {
   // }
   // return true
   const store = authStore()
-  console.log('store.isAuthenticated: ' , store.isAuthenticated)
-  if(!store.isAuthenticated) {
+  console.log('store.isAuthenticated: ', store.isAuthenticated)
+  if (!store.isAuthenticated) {
     return '/auth'
   }
   return true
@@ -56,7 +56,7 @@ const router = createRouter({
       name: 'dashboard',
       beforeEnter: isAuthenticated,
       component: () => import('../views/DashboardView.vue')
-    }, 
+    },
     {
       path: '/registrationcompleted',
       name: 'registrationcompleted',

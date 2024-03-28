@@ -1,16 +1,15 @@
 <script setup>
-
 import { RouterLink, RouterView } from 'vue-router'
 // import { ref } from 'vue'
-import router from '@/router';
+import router from '@/router'
 import { supabase } from '../lib/supabaseClient'
 import { authStore } from '@/stores/auth'
 
 const store = authStore()
 
 async function checkAuth() {
-  console.log('store.isAuthenticated: ' , store.isAuthenticated)
-  console.log('store.isAuthenticated: ' , store.isAuthenticated)
+  console.log('store.isAuthenticated: ', store.isAuthenticated)
+  console.log('store.isAuthenticated: ', store.isAuthenticated)
   return store.isAuthenticated
 }
 
@@ -18,8 +17,8 @@ checkAuth()
 
 async function handleClickLogout() {
   let error = await supabase.auth.signOut()
-  console.log('error: ' , error)
-  if(error.error) {
+  console.log('error: ', error)
+  if (error.error) {
     alert('error: ' + error.message)
   } else {
     // isAuthenticated.value = false
@@ -28,24 +27,23 @@ async function handleClickLogout() {
     router.push({ path: '/' })
   }
 }
-
 </script>
 
 <template>
-    <header>
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <header>
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-        <nav v-if="!store.isAuthenticated">
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
-          <RouterLink to="/auth">Auth</RouterLink>
-        </nav>
-        <nav v-else>
-          <RouterLink to="/dashboard">Dashboard</RouterLink>
-          <button @click="handleClickLogout">Logout</button>
-        </nav>
-    </header>
-    <RouterView />
+    <nav v-if="!store.isAuthenticated">
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/auth">Auth</RouterLink>
+    </nav>
+    <nav v-else>
+      <RouterLink to="/dashboard">Dashboard</RouterLink>
+      <button @click="handleClickLogout">Logout</button>
+    </nav>
+  </header>
+  <RouterView />
 </template>
 
 <style scoped>
