@@ -70,7 +70,7 @@
 import router from '@/router';
 import { supabase } from '../../lib/supabaseClient'
 import { ref } from 'vue'
-import { authStore } from '@/stores/counter'
+import { authStore } from '@/stores/auth'
 
 const store = authStore()
 // If supabase client not found, redirect to home

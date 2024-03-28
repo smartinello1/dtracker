@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 // import { ref } from 'vue'
 import router from '@/router';
 import { supabase } from '../lib/supabaseClient'
-import { authStore } from '@/stores/counter'
+import { authStore } from '@/stores/auth'
 
 const store = authStore()
 

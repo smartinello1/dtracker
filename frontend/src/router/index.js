@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 // import { supabase } from '../../lib/supabaseClient'
-import { authStore } from '@/stores/counter'
+import { authStore } from '@/stores/auth'
 
 // Check if supabase find an authenticated session
 const isAuthenticated = async (to, from) => {
