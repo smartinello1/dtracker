@@ -9,13 +9,6 @@ import { authStore } from '@/stores/counter'
 const store = authStore()
 
 async function checkAuth() {
-
-  // let { data, error } = await supabase.auth.getUser()
-  // console.log('data: ' , data)
-  // console.log('error: ' , error)
-  // if(data.user !== undefined && data.user !== null) {
-  //   isAuthenticated.value = true
-  // }
   console.log('store.isAuthenticated: ' , store.isAuthenticated)
   console.log('store.isAuthenticated: ' , store.isAuthenticated)
   return store.isAuthenticated
