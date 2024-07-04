@@ -10,15 +10,7 @@ const isAuthenticated = async (to, from) => {
   if (to.hash.startsWith('#access_token')) {
     return '/registrationcompleted'
   }
-  // reject the navigation
-  // const { data, error } = await supabase.auth.getUser()
-  // console.log('data: ' , data)
-  // console.log('error: ' , error)
-  // if(error || data.user === undefined) {
-  //   console.log('exit')
-  //   return '/auth'
-  // }
-  // return true
+
   const store = authStore()
   console.log('store.isAuthenticated: ', store.isAuthenticated)
   if (!store.isAuthenticated) {
@@ -61,20 +53,11 @@ const router = createRouter({
       path: '/registrationcompleted',
       name: 'registrationcompleted',
       component: () => import('../views/RegistrationCompletedView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('../views/AboutView.vue') // TODO: Manage redirect to not found on auth user and non-auth users
     }
-    // {
-    //   path: '/logout',
-    //   name: 'logout',
-    //   beforeEnter: async (to, from) => {
-    //     let error = await supabase.auth.signOut()
-    //     console.log('error: ' , error)
-    //     if(error.error) {
-    //       alert('error: ' + error.message)
-    //       return false
-    //     }
-    //     return '/'
-    //   }
-    // }
   ]
 })
 

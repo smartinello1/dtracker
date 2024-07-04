@@ -5,7 +5,7 @@ import { supabase } from '../../lib/supabaseClient'
 let tasks = ref()
 
 async function getTasks() {
-  const { data } = await supabase.schema('company1').from('Task').select('id,name')
+  const { data } = await supabase.from('Task').select('id,name,code,subject,description')
   console.log('data: ', data)
   tasks.value = data
 }
