@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-// import { supabase } from '../../lib/supabaseClient'
+import { supabase } from '../../lib/supabaseClient'
 import { authStore } from '@/stores/auth'
 
 // Check if supabase find an authenticated session
@@ -12,7 +12,14 @@ const isAuthenticated = async (to, from) => {
   }
 
   const store = authStore()
-  console.log('store.isAuthenticated: ', store.isAuthenticated)
+  console.log('router store.isAuthenticated: ', store.isAuthenticated)
+
+  // TODO: Manage user session not with pinia, but with supabase client
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+  console.log('data & user: ', user)
+
   if (!store.isAuthenticated) {
     return '/auth'
   }
@@ -56,6 +63,7 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)*',
+      beforeEnter: isAuthenticated,
       component: () => import('../views/AboutView.vue') // TODO: Manage redirect to not found on auth user and non-auth users
     }
   ]
