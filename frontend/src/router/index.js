@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { supabase } from '../../lib/supabaseClient'
-import { authStore } from '@/stores/auth'
 
 // Check if supabase find an authenticated session
 const isAuthenticated = async (to, from) => {
@@ -11,19 +10,26 @@ const isAuthenticated = async (to, from) => {
     return '/registrationcompleted'
   }
 
-  const store = authStore()
-  console.log('router store.isAuthenticated: ', store.isAuthenticated)
-
-  // TODO: Manage user session not with pinia, but with supabase client
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-  console.log('data & user: ', user)
-
-  if (!store.isAuthenticated) {
+  const { data, error } = await supabase.auth.getSession()
+  console.log('data: ' , data)
+  console.log('error: ' , error)
+  
+  if (!data.session) {
     return '/auth'
   }
   return true
+}
+
+const isSkipAuth = async (to, from) => {
+  const { data, error } = await supabase.auth.getSession()
+  console.log('data: ' , data)
+  console.log('error: ' , error)
+  
+  if (data.session) {
+    return '/dashboard'
+  }
+  return true
+
 }
 
 const router = createRouter({
@@ -37,17 +43,12 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
     {
       path: '/auth',
       name: 'auth',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      beforeEnter: isSkipAuth,
       component: () => import('../views/AuthView.vue')
     },
     {

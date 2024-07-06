@@ -1,7 +1,8 @@
 <template>
-  <div class="auth-container">
-    <div class="authcard">
-      <h1 class="auth-title">Sign up</h1>
+  <div>
+    <div>
+      <h1 v-if="!showSignUp">Sign in</h1>
+      <h1 v-if="showSignUp">Sign up</h1>
 
       <div style="padding: 1rem 0">
         <label for="email">Email:</label>
@@ -23,16 +24,16 @@
         />
       </div>
 
-      <div class="signin-btns-container" v-if="!showSignUp">
-        <button @click="signInHandler">Sign In</button>
+      <div v-if="!showSignUp">
+        <button class="button is-primary" @click="signInHandler">Sign In</button>
         <div>
           Don't you have an account,
           <a style="cursor: pointer" @click="signUpViewHandler">sign up</a>
         </div>
       </div>
 
-      <div class="signup-btns-container" v-if="showSignUp">
-        <button @click="signUpHandler">Sign Up</button>
+      <div v-if="showSignUp">
+        <button class="button is-primary" @click="signUpHandler">Sign Up</button>
         <div>
           Already have an account? <a style="cursor: pointer" @click="signInViewHandler">sign in</a>
         </div>
@@ -42,41 +43,13 @@
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .auth-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
 
-.auth-title {
-  text-align: var(--text-align-center);
-}
-
-.signup-btns-container {
-  text-align: var(--text-align-center);
-  padding: 1rem;
-}
-
-.signin-btns-container {
-  text-align: var(--text-align-center);
-  padding: 1rem;
-}
 </style>
 
 <script setup>
 import router from '@/router'
 import { supabase } from '../../lib/supabaseClient'
 import { ref } from 'vue'
-import { authStore } from '@/stores/auth'
-
-const store = authStore()
-// If supabase client not found, redirect to home
-if (!supabase) {
-  // TODO: Handle errors SupabaseClient
-}
 
 let email = ref()
 let password = ref()
@@ -132,15 +105,14 @@ async function signInHandler(event) {
     alert('Error login: ' + error.message)
   } else {
     console.log('data login: ', data)
-    store.$patch({
-      isAuthenticated: true,
-      userInfo: data.user
-    })
+    console.log('data login: ', data.user.id)
+
+    // query user data
+    const userQuery = await supabase.from('User').select('id,first_name,last_name,tenant_id').eq('supabase_id',`${data.user.id}`)
+    console.log('user data: ' , userQuery.data)
+    console.log('error: ' ,userQuery.error)
+
     router.push({ path: '/dashboard' })
-    // TODO: Refactor and use pinia or other vue function
-    // window.setTimeout(() => {
-    //   window.location.reload()
-    // },500)
   }
 }
 

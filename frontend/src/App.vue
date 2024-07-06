@@ -1,19 +1,20 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-// import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import router from '@/router'
 import { supabase } from '../lib/supabaseClient'
-import { authStore } from '@/stores/auth'
 
-const store = authStore()
+const session = ref()
 
-async function checkAuth() {
-  console.log('store.isAuthenticated: ', store.isAuthenticated)
-  console.log('store.isAuthenticated: ', store.isAuthenticated)
-  return store.isAuthenticated
-}
+onMounted(() => {
+  supabase.auth.getSession().then(({ data }) => {
+    session.value = data.session
+  })
 
-checkAuth()
+  supabase.auth.onAuthStateChange((_, _session) => {
+    session.value = _session
+  })
+})
 
 async function handleClickLogout() {
   let error = await supabase.auth.signOut()
@@ -21,19 +22,27 @@ async function handleClickLogout() {
   if (error.error) {
     alert('error: ' + error.message)
   } else {
-    // isAuthenticated.value = false
-    store.isAuthenticated = false
-    store.userInfo = undefined
+    
     router.push({ path: '/' })
   }
 }
+
+function goToLogin() {
+  router.push({ path: '/auth' })
+}
+
+function handleMenuLink(event) {
+  console.log('pathname: ', event.target.name)
+  router.push({ path: event.target.name })
+}
+
 </script>
 
 <template>
-  <header>
+  <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <nav v-if="!store.isAuthenticated">
+    <nav v-if="!session">
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/auth">Auth</RouterLink>
@@ -42,72 +51,53 @@ async function handleClickLogout() {
       <RouterLink to="/dashboard">Dashboard</RouterLink>
       <button @click="handleClickLogout">Logout</button>
     </nav>
-  </header>
+  </header> -->
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" @click="handleMenuLink" name="/">
+        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+      </a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu">
+      <div class="navbar-start">
+          <a @click="handleMenuLink" name="/" class="navbar-item">
+            Home
+          </a>
+
+          <a @click="handleMenuLink" name="/about" class="navbar-item">
+            About
+          </a>
+
+          <a @click="handleMenuLink" name="/" class="navbar-item">
+            Documentation
+          </a>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <strong>Sign up</strong>
+            </a>
+            <a class="button is-light" @click="goToLogin">
+              Log in
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
   <RouterView />
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    /* padding-right: calc(var(--section-gap) / 2); */
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-    display: flex;
-    justify-content: flex-end;
-  }
-}
 </style>

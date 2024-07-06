@@ -15,7 +15,10 @@ export const useCounterStore = defineStore('counter', () => {
 
 export const authStore = defineStore('auth', () => {
   const isAuthenticated = ref(false)
+  const authInfo = ref()
+  const sessionInfo = ref()
+  const loginAt = ref()
   const userInfo = ref()
 
-  return { isAuthenticated, userInfo }
+  return { isAuthenticated, authInfo, userInfo, loginAt, sessionInfo }
 })
