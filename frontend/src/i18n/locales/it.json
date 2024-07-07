@@ -1,0 +1,13 @@
+{
+  "profilePage": {
+    "title": "Il tuo profilo",
+    "first_name": "Nome",
+    "last_name": "Cognome",
+    "alias": "Alias",
+    "saveButton": "Salva",
+    "saveSuccessMessage": "Profilo aggiornato correttamente"
+  },
+  "projectPage": {
+    "selectAProjectTitle": "Seleziona un progetto"
+  }
+}

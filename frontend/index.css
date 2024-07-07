@@ -1,5 +1,34 @@
+/* override Bulma variables */
+
 :root {
+    /* Bulma variables for primary color */
     --bulma-primary-h: 140;
     --bulma-primary-s: 40%;
     --bulma-primary-l: 50%;
+    /* Bulma variables for link color */
+    --bulma-link-h: 140;
+    --bulma-link-s: 40%;
+    --bulma-link-l: 50%;
 }
+
+/* Full height */
+
+html, body, div#app {
+    height: 100%;
+}
+
+/* Popup notification */
+
+/* .dtracker_notification-container {
+    position: absolute !important;
+    z-index: 100 !important;
+    width: 100%;
+    top: 7rem;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.dtracker_notification {
+    padding: 1.375em 3em;
+} */
+

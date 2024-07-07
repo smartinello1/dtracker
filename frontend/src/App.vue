@@ -1,7 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import Navbar from './components/ui/Navbar.vue';
-
+import Navbar from './components/ui/Navbar.vue'
 </script>
 
 <template>
@@ -9,6 +8,4 @@ import Navbar from './components/ui/Navbar.vue';
   <RouterView />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

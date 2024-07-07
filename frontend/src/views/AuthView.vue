@@ -42,9 +42,7 @@
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>
 
 <script setup>
 import router from '@/router'
@@ -108,9 +106,12 @@ async function signInHandler(event) {
     console.log('data login: ', data.user.id)
 
     // query user data
-    const userQuery = await supabase.from('User').select('id,first_name,last_name,tenant_id').eq('supabase_id',`${data.user.id}`)
-    console.log('user data: ' , userQuery.data)
-    console.log('error: ' ,userQuery.error)
+    const userQuery = await supabase
+      .from('User')
+      .select('id,first_name,last_name,tenant_id')
+      .eq('supabase_id', `${data.user.id}`)
+    console.log('user data: ', userQuery.data)
+    console.log('error: ', userQuery.error)
 
     router.push({ path: '/dashboard' })
   }

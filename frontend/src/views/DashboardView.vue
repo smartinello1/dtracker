@@ -12,15 +12,18 @@ async function getTasks() {
 
 async function getUserData() {
   const sessionInfo = await supabase.auth.getSession()
-  console.log('sessionInfo: ' , sessionInfo)
-  
-  if(sessionInfo.error) {
+  console.log('sessionInfo: ', sessionInfo)
+
+  if (sessionInfo.error) {
     return
   }
 
-  const { data, error } = await supabase.from('User').select('id,first_name,last_name,tenant_id').eq('supabase_id',`${sessionInfo.data.session.user.id}`)
-  console.log('user data: ' , data)
-  console.log('error: ' , error)
+  const { data, error } = await supabase
+    .from('User')
+    .select('id,first_name,last_name,tenant_id')
+    .eq('supabase_id', `${sessionInfo.data.session.user.id}`)
+  console.log('user data: ', data)
+  console.log('error: ', error)
 }
 
 getTasks()

@@ -11,9 +11,9 @@ const isAuthenticated = async (to, from) => {
   }
 
   const { data, error } = await supabase.auth.getSession()
-  console.log('data: ' , data)
-  console.log('error: ' , error)
-  
+  console.log('data: ', data)
+  console.log('error: ', error)
+
   if (!data.session) {
     return '/auth'
   }
@@ -22,14 +22,13 @@ const isAuthenticated = async (to, from) => {
 
 const isSkipAuth = async (to, from) => {
   const { data, error } = await supabase.auth.getSession()
-  console.log('data: ' , data)
-  console.log('error: ' , error)
-  
+  console.log('data: ', data)
+  console.log('error: ', error)
+
   if (data.session) {
     return '/dashboard'
   }
   return true
-
 }
 
 const router = createRouter({
