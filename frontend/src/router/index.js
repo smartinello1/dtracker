@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { supabase } from '../../lib/supabaseClient'
+import { supabase } from '@/lib/supabaseClient'
 
 // Check if supabase find an authenticated session
 const isAuthenticated = async (to, from) => {
@@ -38,34 +38,53 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      beforeEnter: isSkipAuth,
       component: HomeView
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('@/views/AboutView.vue')
     },
     {
       path: '/auth',
       name: 'auth',
       beforeEnter: isSkipAuth,
-      component: () => import('../views/AuthView.vue')
+      component: () => import('@/views/AuthView.vue')
     },
     {
       path: '/dashboard',
       name: 'dashboard',
       beforeEnter: isAuthenticated,
-      component: () => import('../views/DashboardView.vue')
+      component: () => import('@/views/DashboardView.vue')
+    },
+    {
+      path: '/project',
+      name: 'project',
+      beforeEnter: isAuthenticated,
+      component: () => import('@/views/ProjectView.vue')
+    },
+    {
+      path: '/task',
+      name: 'task',
+      beforeEnter: isAuthenticated,
+      component: () => import('@/views/TaskView.vue')
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      beforeEnter: isAuthenticated,
+      component: () => import('@/views/ProfileView.vue')
     },
     {
       path: '/registrationcompleted',
       name: 'registrationcompleted',
-      component: () => import('../views/RegistrationCompletedView.vue')
+      component: () => import('@/views/RegistrationCompletedView.vue')
     },
     {
       path: '/:pathMatch(.*)*',
       beforeEnter: isAuthenticated,
-      component: () => import('../views/AboutView.vue') // TODO: Manage redirect to not found on auth user and non-auth users
+      component: () => import('@/views/NotFoundView.vue')
     }
   ]
 })

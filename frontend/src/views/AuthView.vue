@@ -48,7 +48,7 @@
 
 <script setup>
 import router from '@/router'
-import { supabase } from '../../lib/supabaseClient'
+import { supabase } from '@/lib/supabaseClient'
 import { ref } from 'vue'
 
 let email = ref()

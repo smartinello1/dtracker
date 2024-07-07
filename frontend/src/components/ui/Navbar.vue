@@ -1,11 +1,11 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import router from '@/router'
-import { supabase } from '../../../lib/supabaseClient';
+import { supabase } from '@/lib/supabaseClient';
 
 const session = ref()
 
-onMounted(() => {
+onBeforeMount(() => {
   supabase.auth.getSession().then(({ data }) => {
     session.value = data.session
   })
@@ -44,7 +44,8 @@ function handleMenuLink(event) {
 }
 
 .navbar-item > img.is-rounded { 
-    max-height: 4rem; 
+    max-height: 4rem;
+    cursor: pointer;
 }
 
 </style>
@@ -52,8 +53,8 @@ function handleMenuLink(event) {
 <template>
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" @click="handleMenuLink" name="/">
-                <img alt="Vue logo" @click="handleMenuLink" name="/" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+            <a class="navbar-item" @click="handleMenuLink" :name="session ? '/dashboard' : '/'">
+                <img alt="Vue logo" @click="handleMenuLink" :name="session ? '/dashboard' : '/'" class="logo" src="@/assets/logo.svg" width="125" height="125" />
             </a>
         </div>
         <!-- navbar for unauthenticated users - START -->
@@ -94,14 +95,18 @@ function handleMenuLink(event) {
                     Dashboard
                 </a>
 
-                <a @click="handleMenuLink" name="/todos" class="navbar-item">
-                    Todos
+                <a @click="handleMenuLink" name="/project" class="navbar-item">
+                    Projects
+                </a>
+
+                <a @click="handleMenuLink" name="/task" class="navbar-item">
+                    Tasks
                 </a>
             </div>
 
             <div class="navbar-end">
                     <figure class="image is-64x64 navbar-item">
-                        <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/128x128.png" />
+                        <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/128x128.png" @click="handleMenuLink" name="/profile" />
                     </figure>
                 <div class="navbar-item">
                     <div class="buttons">
