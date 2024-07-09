@@ -8,6 +8,16 @@
     "saveSuccessMessage": "Profile information update successfully"
   },
   "projectPage": {
-    "selectAProjectTitle": "Select a project"
+    "selectAProjectTitle": "Select a project or create a new one",
+    "createNewProjectButton": "Create a new project",
+    "projectsTitle": "Projects",
+    "nameField": "Name",
+    "codeField": "Code",
+    "startDateField": "Start date",
+    "endDateField": "End date",
+    "newProjectTitle": "New Project",
+    "cancelButton": "Cancel",
+    "saveButton": "Save",
+    "fieldIsRequired": "Field is required"
   }
 }

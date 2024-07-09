@@ -11,11 +11,18 @@ let modal = ref(NewProject)
 onBeforeMount(async () => {
   session.value = supabaseSession
   console.log('session: ', session.value)
-  let projectsQuery = await supabase.from('Project').select('id,name,code').limit(10)
-  console.log('projects query: ', projectsQuery)
-  projects.value = projectsQuery
-  console.log('projects value: ', projects.value)
+  loadProject()
 })
+
+async function loadProject() {
+  let projectsQuery = await supabase
+    .from('Project')
+    .select('id,name,code,start_date,end_date')
+    .limit(10)
+  console.log('projects query: ', projectsQuery)
+  projects.value = projectsQuery.data
+  console.log('projects value: ', projects.value)
+}
 
 function updateProjectSelection(event) {
   console.log('event: ', event.target.name)
@@ -33,13 +40,20 @@ function openModalNewProject() {
   console.log('show modal: ', modal.value)
   modal.value.showModal()
 }
+
+function handleProjectCreated() {
+  loadProject()
+}
 </script>
 
 <template>
-  <NewProject ref="modal" />
-  <h1>PROJECTS</h1>
+  <NewProject ref="modal" @project-created="handleProjectCreated" />
   <div class="columns">
     <aside class="menu column is-2">
+      <button class="button is-primary my-3" @click="openModalNewProject">
+        {{ $t('projectPage.createNewProjectButton') }}
+      </button>
+      <h1 class="my-3">{{ $t('projectPage.projectsTitle') }}</h1>
       <ul class="menu-list" v-if="projects?.length > 0">
         <li v-for="project in projects" :key="project.code">
           <a
@@ -59,21 +73,27 @@ function openModalNewProject() {
         <div class="card" v-if="selectedProject">
           <div class="card-content">
             <div class="content">
-              {{ selectedProject.name }}
-              {{ selectedProject.code }}
+              {{ $t('projectPage.nameField') }}: {{ selectedProject.name }}
+              {{ $t('projectPage.codeField') }}: {{ selectedProject.code }}
               <br />
-              <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              {{ $t('projectPage.startDateField') }}:
+              <time :datetime="selectedProject.start_date">{{
+                selectedProject.start_date ? selectedProject.start_date : '-'
+              }}</time>
+              &nbsp; {{ $t('projectPage.endDateField') }}:
+              <time :datetime="selectedProject.end_date">{{
+                selectedProject.end_date ? selectedProject.end_date : '-'
+              }}</time>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container columns is-10">
+    <!-- <div class="container columns is-10">
       <div class="section">
         <h1 class="title is-1">Create a project to get started</h1>
-        <button class="button is-primary" @click="openModalNewProject">Create a new project</button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>

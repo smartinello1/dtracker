@@ -1,9 +1,10 @@
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, computed } from 'vue'
 import router from '@/router'
 import { supabase } from '@/lib/supabaseClient'
 
 const session = ref()
+let theme = ref(document.documentElement.dataset.theme)
 
 onBeforeMount(() => {
   supabase.auth.getSession().then(({ data }) => {
@@ -24,6 +25,16 @@ async function handleClickLogout() {
     router.push({ path: '/' })
   }
 }
+
+function changeColorScheme() {
+  document.documentElement.dataset.theme =
+    document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
+  theme.value = document.documentElement.dataset.theme
+}
+
+const buttonCssClass = computed(() => {
+  return theme.value === 'dark' ? 'button is-light' : 'button is-dark'
+})
 
 function goToLogin() {
   router.push({ path: '/auth' })
@@ -95,6 +106,9 @@ function handleMenuLink(event) {
       </div>
 
       <div class="navbar-end">
+        <div class="navbar-item">
+          <button :class="buttonCssClass" @click="changeColorScheme">Change Theme</button>
+        </div>
         <figure class="image is-64x64 navbar-item">
           <img
             class="is-rounded"
@@ -105,7 +119,7 @@ function handleMenuLink(event) {
         </figure>
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-light" @click="handleClickLogout"> Log out </a>
+            <a :class="buttonCssClass" @click="handleClickLogout"> Log out </a>
           </div>
         </div>
       </div>

@@ -17,6 +17,20 @@ html, body, div#app {
     height: 100%;
 }
 
+/* calendar selector */
+
+html[data-theme=dark] {
+    input[type="date"] {
+      color-scheme: dark;
+    }
+  }
+  
+  html[data-theme=light] {
+    input[type="date"] {
+      color-scheme: light;
+    }
+  }
+
 /* Popup notification */
 
 /* .dtracker_notification-container {

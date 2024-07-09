@@ -47,34 +47,42 @@ function closeNotification() {
 <style></style>
 
 <template>
-  <div class="container is-max-desktop">
-    <div class="notification is-primary has-text-centered" v-if="showNotification">
+  <div class="container is-max-desktop py-6" v-if="showNotification">
+    <div class="notification is-primary has-text-centered">
       <button class="delete" @click="closeNotification"></button>
       {{ $t('profilePage.saveSuccessMessage') }}
     </div>
   </div>
-  <div class="container is-max-desktop">
-    <div class="card has-background-primary-dark">
-      <h1 class="title is-1 has-text-centered has-text-primary p-6">
+  <div class="container is-max-desktop pt-6">
+    <div class="card has-background">
+      <h1 class="title is-1 has-text-centered p-6">
         {{ $t('profilePage.title') }}
       </h1>
       <div class="card-content">
-        <div class="field px-6">
-          <label class="label px-6">{{ $t('profilePage.first_name') }}</label>
-          <div class="control px-6">
-            <input class="input" id="first_name" v-model="profile.first_name" />
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label">{{ $t('profilePage.first_name') }}</label>
+              <div class="control">
+                <input class="input" id="first_name" v-model="profile.first_name" />
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="field px-6">
-          <label class="label px-6">{{ $t('profilePage.last_name') }}</label>
-          <div class="control px-6">
-            <input class="input" id="last_name" v-model="profile.last_name" />
+          <div class="column">
+            <div class="field">
+              <label class="label">{{ $t('profilePage.last_name') }}</label>
+              <div class="control">
+                <input class="input" id="last_name" v-model="profile.last_name" />
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="field px-6">
-          <label class="label px-6">{{ $t('profilePage.alias') }}</label>
-          <div class="control px-6">
-            <input class="input" id="alias" v-model="profile.alias" />
+          <div class="column">
+            <div class="field">
+              <label class="label">{{ $t('profilePage.alias') }}</label>
+              <div class="control">
+                <input class="input" id="alias" v-model="profile.alias" />
+              </div>
+            </div>
           </div>
         </div>
       </div>

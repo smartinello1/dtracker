@@ -8,6 +8,16 @@
     "saveSuccessMessage": "Profilo aggiornato correttamente"
   },
   "projectPage": {
-    "selectAProjectTitle": "Seleziona un progetto"
+    "selectAProjectTitle": "Seleziona un progetto o creane uno nuovo",
+    "createNewProjectButton": "Crea un nuovo progetto",
+    "projectsTitle": "Progetti",
+    "nameField": "Nome",
+    "codeField": "Codice",
+    "startDateField": "Data inizio",
+    "endDateField": "Data fine",
+    "newProjectTitle": "Nuovo progetto",
+    "cancelButton": "Annulla",
+    "saveButton": "Salva",
+    "fieldIsRequired": "Campo obbligatorio"
   }
 }
