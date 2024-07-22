@@ -59,6 +59,12 @@ const router = createRouter({
     },
     {
       path: '/project',
+      name: 'projects',
+      beforeEnter: isAuthenticated,
+      component: () => import('@/views/ProjectsView.vue')
+    },
+    {
+      path: '/project/:id',
       name: 'project',
       beforeEnter: isAuthenticated,
       component: () => import('@/views/ProjectView.vue')
@@ -67,7 +73,7 @@ const router = createRouter({
       path: '/task',
       name: 'task',
       beforeEnter: isAuthenticated,
-      component: () => import('@/views/TaskView.vue')
+      component: () => import('@/views/TasksView.vue')
     },
     {
       path: '/profile',
@@ -82,6 +88,7 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)*',
+      name: `NotFound`,
       beforeEnter: isAuthenticated,
       component: () => import('@/views/NotFoundView.vue')
     }

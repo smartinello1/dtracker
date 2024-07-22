@@ -18,6 +18,7 @@
     "newProjectTitle": "New Project",
     "cancelButton": "Cancel",
     "saveButton": "Save",
-    "fieldIsRequired": "Field is required"
+    "fieldIsRequired": "Field is required",
+    "showDetailsButton": "Show details"
   }
 }

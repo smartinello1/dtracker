@@ -18,6 +18,7 @@
     "newProjectTitle": "Nuovo progetto",
     "cancelButton": "Annulla",
     "saveButton": "Salva",
-    "fieldIsRequired": "Campo obbligatorio"
+    "fieldIsRequired": "Campo obbligatorio",
+    "showDetailsButton": "Vedi dettagli"
   }
 }
