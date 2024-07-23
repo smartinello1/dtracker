@@ -1,4 +1,12 @@
 {
+  "authPage": {
+    "titleSignIn": "Accedi",
+    "titleSignUp": "Registrati",
+    "emailField": "Email",
+    "passwordField": "Password",
+    "dontHaveAccount": "Non hai un account?",
+    "alreadyHaveAccount": "Hai giá un account?"
+  },
   "profilePage": {
     "title": "Il tuo profilo",
     "first_name": "Nome",

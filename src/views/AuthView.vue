@@ -1,49 +1,3 @@
-<template>
-  <div>
-    <div>
-      <h1 v-if="!showSignUp">Sign in</h1>
-      <h1 v-if="showSignUp">Sign up</h1>
-
-      <div style="padding: 1rem 0">
-        <label for="email">Email:</label>
-        <input
-          @keyup="handleChangeEmail"
-          id="email"
-          type="email"
-          placeholder="Insert your email..."
-        />
-      </div>
-
-      <div style="padding: 1rem 0">
-        <label for="password">Password:</label>
-        <input
-          @keyup="handleChangePassword"
-          id="password"
-          type="password"
-          placeholder="Insert your password..."
-        />
-      </div>
-
-      <div v-if="!showSignUp">
-        <button class="button is-primary" @click="signInHandler">Sign In</button>
-        <div>
-          Don't you have an account,
-          <a style="cursor: pointer" @click="signUpViewHandler">sign up</a>
-        </div>
-      </div>
-
-      <div v-if="showSignUp">
-        <button class="button is-primary" @click="signUpHandler">Sign Up</button>
-        <div>
-          Already have an account? <a style="cursor: pointer" @click="signInViewHandler">sign in</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style></style>
-
 <script setup>
 import router from '@/router'
 import { supabase } from '@/lib/supabaseClient'
@@ -130,12 +84,59 @@ function signInViewHandler(event) {
 function handleChangeEmail(event) {
   event.preventDefault()
   email.value = event.target.value
-  console.log('email: ', email.value)
 }
 
 function handleChangePassword(event) {
   event.preventDefault()
   password.value = event.target.value
-  console.log('password: ', password.value)
 }
 </script>
+
+<style></style>
+
+<template>
+  <div class="container is-max-desktop pt-6">
+    <div class="card has-background">
+      <h1 class="title is-1 has-text-centered p-6">
+        {{ !showSignUp ? $t('authPage.titleSignIn') : $t('authPage.titleSignUp') }}
+      </h1>
+      <div class="card-content">
+        <div class="columns">
+          <div class="column">
+            
+            <div class="field">
+              <label class="label">{{ $t('authPage.emailField') }}</label>
+              <div class="control">
+                <input class="input" type="email" id="email" @keyup="handleChangeEmail" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">{{ $t('authPage.passwordField') }}</label>
+              <div class="control">
+                <input class="input" type="password" id="password" @keyup="handleChangePassword" />
+              </div>
+            </div>
+
+          </div>
+
+          <div v-if="!showSignUp">
+            <button class="button is-primary" @click="signInHandler">{{ $t('authPage.titleSignIn') }}</button>
+            <div>
+              {{ $t('authPage.dontHaveAccount') }},
+              <a style="cursor: pointer" @click="signUpViewHandler">{{ $t('authPage.titleSignUp') }}</a>
+            </div>
+          </div>
+
+          <div v-if="showSignUp">
+            <button class="button is-primary" @click="signUpHandler">{{ $t('authPage.titleSignUp') }}</button>
+            <div>
+              {{ $t('authPage.alreadyHaveAccount') }} <a style="cursor: pointer" @click="signInViewHandler">{{ $t('authPage.titleSignIn') }}</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
